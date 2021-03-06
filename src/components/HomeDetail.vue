@@ -2,17 +2,17 @@
   <home-card title="Overview">
     <action-card 
       class="action__primary"
-      title="Risks"
+      title="Total Risks"
       description="766"
     />
     <action-card 
       class="action__primary"
-      title="Risk Types"
+      title="Total Risk Types"
       description="1.082"
     />
     <action-card 
       class="action__primary"
-      title="Fields"
+      title="Total Fields"
       description="7.223"
     />
 
@@ -21,16 +21,19 @@
     <action-card 
       class="action"
       title="Create a Risk Type"
+      @click="navigate('create/risktype')"
       description="Adds a risk type record"
     />
     <action-card 
       class="action"
       title="Create a Risk"
+      @click="navigate('create/risk')"
       description="Adds a new Risk record"
     />
     <action-card 
       class="action"
       title="Manage a Risk"
+      @click="navigate('manage/risks')"
       description="Visualize or edit details for an existent Risk"
     />
   </home-card>
@@ -39,9 +42,19 @@
 <script>
 import HomeCard from './HomeCard.vue'
 import ActionCard from './ActionCard.vue'
+import router from '../router'
 export default {
   components: { ActionCard, HomeCard },
   name: 'HomeDetail',
+  methods: {
+    navigate(url) {
+      // eslint-disable-next-line no-debugger
+      debugger;
+      let [ path, param ] = url.split('/')
+      const route = param? { path: `/${path}/${param}` } : path
+      router.push(route)
+    },
+  }
 }
 </script>
 
