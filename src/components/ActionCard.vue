@@ -1,21 +1,27 @@
 <template>
   <div class="action-card">
-    <b class="title">{{title}}</b>
-    <span class="description">{{description}}</span>
+    <b class="title">{{ title }}</b>
+    <span class="description">{{ description }}</span>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'ActionCard',
+  name: "ActionCard",
   props: {
-    title: String,
-    description: String
+    title: {
+      type: String,
+      default: ""
+    },
+    description: {
+      type: String,
+      default: ""
+    },
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss" scoped>
   .action-card {
     cursor: pointer;

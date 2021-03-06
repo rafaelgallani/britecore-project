@@ -1,19 +1,15 @@
 <template>
-  <div class="manage-risk-type">
-    
-  </div>
+  <div class="manage-risk-type" />
 </template>
 
 <script>
-// @ is an alias to /src
-//import HomeDetail from '../components/HomeDetail.vue'
 
 export default {
-  name: 'ManageRiskType',
+  name: "ManageRiskType",
   components: {
     
   }
-}
+};
 </script>
 
 <style lang="scss">

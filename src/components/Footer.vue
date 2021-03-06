@@ -2,22 +2,37 @@
   <footer class="footer-content">
     <b>{{ msg }}</b>
     <ul>
-      <li><a href="https://github.com/rafaelgalani" target="_blank" rel="noopener">github</a></li>
-      <li><a href="https://linkedin.com/in/rafaelgalani" target="_blank" rel="noopener">linked</a></li>
+      <li>
+        <a
+          href="https://github.com/rafaelgalani"
+          target="_blank"
+          rel="noopener"
+        >github</a>
+      </li>
+      <li>
+        <a
+          href="https://linkedin.com/in/rafaelgalani"
+          target="_blank"
+          rel="noopener"
+        >linked</a>
+      </li>
     </ul>
   </footer>
 </template>
 
 <script>
 export default {
-  name: 'Footer',
+  name: "Footer",
   props: {
-    msg: String
+    msg: {
+      type: String,
+      default: "made by Rafael Galani"
+    }
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss" scoped>
 
 .footer-content {

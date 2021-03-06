@@ -1,22 +1,27 @@
 <template>
   <div class="home-card">
-    <h2 class="title">{{title}}</h2>
+    <h2 class="title">
+      {{ title }}
+    </h2>
     <main class="actions">
-      <slot></slot>
+      <slot />
     </main>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'HomeCard',
+  name: "HomeCard",
   props: {
-    title: String
+    title: {
+      type: String,
+      default: ""
+    }
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style lang="scss">
   .title {
     font-size: 30px;

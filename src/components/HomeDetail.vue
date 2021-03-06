@@ -15,50 +15,46 @@
       title="Total Fields"
       description="7.223"
     />
-
   </home-card>
   <home-card title="Actions">
     <action-card 
       class="action"
       title="Create a Risk Type"
-      @click="navigate('create/risktype')"
       description="Adds a risk type record"
+      @click="navigate('create/risktype')"
     />
     <action-card 
       class="action"
       title="Create a Risk"
-      @click="navigate('create/risk')"
       description="Adds a new Risk record"
+      @click="navigate('create/risk')"
     />
     <action-card 
       class="action"
       title="Manage a Risk"
-      @click="navigate('manage/risks')"
       description="Visualize or edit details for an existent Risk"
+      @click="navigate('manage/risks')"
     />
   </home-card>
 </template>
 
 <script>
-import HomeCard from './HomeCard.vue'
-import ActionCard from './ActionCard.vue'
-import router from '../router'
+import HomeCard from "./HomeCard.vue";
+import ActionCard from "./ActionCard.vue";
+import router from "../router";
 export default {
+  name: "HomeDetail",
   components: { ActionCard, HomeCard },
-  name: 'HomeDetail',
   methods: {
     navigate(url) {
-      // eslint-disable-next-line no-debugger
-      debugger;
-      let [ path, param ] = url.split('/')
-      const route = param? { path: `/${path}/${param}` } : path
-      router.push(route)
+      let [ path, param ] = url.split("/");
+      const route = param? { path: `/${path}/${param}` } : path;
+      router.push(route);
     },
   }
-}
+};
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   
   .action{
