@@ -21,6 +21,8 @@ export default {
 <style lang="scss" scoped>
 
 .footer-content {
+  padding: 10px;
+  box-sizing: border-box;
   position: fixed;
   left: 0;
   bottom: 0;

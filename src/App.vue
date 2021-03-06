@@ -3,7 +3,7 @@
   <div class="app">
     <router-view/>
   </div>
-  <Footer msg="developed by @rafaelgalani"/>
+  <Footer msg="made by Rafael Galani"/>
 </template>
 
 <script>

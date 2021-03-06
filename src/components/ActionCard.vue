@@ -18,13 +18,27 @@ export default {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
   .action-card {
+    cursor: pointer;
     min-height: 100px;
     display: flex;
-    flex-direction: column;
+    flex: 1;
+    flex-direction: row;
     flex-wrap: wrap;
+    padding: 0 10px;
+    margin: 5px 10px;
+    border-radius: 5px;
+    align-content: center;
+    justify-content: center;
+
+    box-shadow: 0px 0px 8px 1px rgba(217,217,217,1);
 
     & .title {
-      font-size: 1em;
+      font-size: 1.4em;
+      font-weight: bold;
+      margin-bottom: 5px;
+      text-align: center;
+      flex-basis: 100%;
     }
+
   }
 </style>
