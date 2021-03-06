@@ -1,9 +1,14 @@
-import { createRouter, createWebHistory } from "vue-router";
+import Vue from "vue";
+import VueRouter from "vue-router";
+
 import Home from "../views/Home.vue";
 import NewRisk from "../views/NewRisk.vue";
 import NewRiskType from "../views/NewRiskType.vue";
 import ManageRisk from "../views/ManageRisk.vue";
 import ManageRiskType from "../views/ManageRiskType.vue";
+import About from  "../views/About.vue";
+
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -34,12 +39,13 @@ const routes = [
   {
     path: "/about",
     name: "About",
-    component: () => import("../views/About.vue")
+    component: About
   }
 ];
 
-const router = createRouter({
-  history: createWebHistory(process.env.BASE_URL),
+const router = new VueRouter({
+  mode: "history",
+  base: process.env.BASE_URL,
   routes
 });
 

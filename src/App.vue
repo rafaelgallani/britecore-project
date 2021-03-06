@@ -1,15 +1,14 @@
 <template>
-  <Header />
   <div class="app">
+    <Header />
     <router-view />
+    <Footer msg="made by Rafael Galani" />
   </div>
-  <Footer msg="made by Rafael Galani" />
 </template>
 
 <script>
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
-
 export default {
   name: "App",
   components: {

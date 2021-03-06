@@ -1,47 +1,53 @@
 <template>
-  <home-card title="Overview">
-    <action-card 
-      class="action__primary"
-      title="Total Risks"
-      description="766"
-    />
-    <action-card 
-      class="action__primary"
-      title="Total Risk Types"
-      description="1.082"
-    />
-    <action-card 
-      class="action__primary"
-      title="Total Fields"
-      description="7.223"
-    />
-  </home-card>
-  <home-card title="Actions">
-    <action-card 
-      class="action"
-      title="Create a Risk Type"
-      description="Adds a risk type record"
-      @click="navigate('create/risktype')"
-    />
-    <action-card 
-      class="action"
-      title="Create a Risk"
-      description="Adds a new Risk record"
-      @click="navigate('create/risk')"
-    />
-    <action-card 
-      class="action"
-      title="Manage a Risk"
-      description="Visualize or edit details for an existent Risk"
-      @click="navigate('manage/risks')"
-    />
-  </home-card>
+  <div class="card-list">
+    <home-card title="Overview">
+      <action-card 
+        class="action__primary"
+        title="Total Risks"
+        description="766"
+      />
+      <action-card 
+        class="action__primary"
+        title="Total Risk Types"
+        description="1.082"
+      />
+      <action-card 
+        class="action__primary"
+        title="Total Fields"
+        description="7.223"
+      />
+    </home-card>
+    <home-card title="Actions">
+      <div @click="navigate('create/risktype')">
+        <action-card 
+          class="action"
+          title="Create a Risk Type"
+          description="Adds a risk type record"
+        />
+      </div>
+      <div @click="navigate('create/risk')">
+        <action-card 
+          class="action"
+          title="Create a Risk"
+          description="Adds a new Risk record"
+        />
+      </div>
+      <div @click="navigate('manage/risks')">
+        <action-card 
+          class="action"
+          title="Manage a Risk"
+          description="Visualize or edit details for an existent Risk"
+        />
+      </div>
+    </home-card>
+  </div>
 </template>
 
 <script>
 import HomeCard from "./HomeCard.vue";
 import ActionCard from "./ActionCard.vue";
 import router from "../router";
+
 export default {
   name: "HomeDetail",
   components: { ActionCard, HomeCard },
