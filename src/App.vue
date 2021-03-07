@@ -1,7 +1,7 @@
 <template>
-  <div class="app">
+  <div>
     <Header />
-    <router-view />
+    <router-view class="app"/>
     <Footer msg="made by Rafael Galani" />
   </div>
 </template>
