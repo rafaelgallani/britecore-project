@@ -1,0 +1,30 @@
+.field{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.formulate-input .formulate-input-element {
+  max-width: unset;
+  margin-bottom: 0.1em;
+}
+
+.formulate-input-error{
+  position: absolute;
+}
+
+.formulate-input[data-type="checkbox"] {
+  position: relative;
+  align-self: center;
+  top: 11px;
+}
+
+.formulate-input-grouping .formulate-input {
+  margin-bottom: 0;
+  margin-left: 10px;
+  width: 25%;
+}
+
+.formulate-input[data-classification="group"] [data-is-repeatable] .formulate-input-group-repeatable-remove:not(:only-of-type) {
+  top: 55px;
+}
