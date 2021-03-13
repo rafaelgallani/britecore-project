@@ -32,14 +32,49 @@ class FieldSerializer(DefaultSerializer):
             )
 
         return field
-        
-class RiskSerializer(DefaultSerializer):
-    class Meta(DefaultSerializer.Meta):
-        model = Risk
-        
+
 class RiskFieldSerializer(DefaultSerializer):
+    name = serializers.CharField()
+    field_type = serializers.CharField()
+    options = FieldValueSerializer(many=True, required=False)
+
     class Meta(DefaultSerializer.Meta):
         model = RiskField
+        fields = ['field_type', 'name', 'options']
+
+class RiskSerializer(DefaultSerializer):
+    
+    fields = FieldSerializer(many=True)
+
+    class Meta(DefaultSerializer.Meta):
+        model = Risk
+
+    def create(self, validated_data):
+        fields = validated_data.pop('fields')
+        risk = Risk.objects.create(**validated_data)
+        
+        for field in fields:
+            
+            field_options = field.pop('options', []);
+            created_field = Field.objects.create(**field)
+            
+            options = []
+
+            for option in field_options:
+                created_option = FieldValue.objects.create(
+                    **option,
+                    field=created_field
+                )
+                options.append(created_option)
+            
+            created_field.options.set(options)
+
+            default_field = RiskField.objects.create(
+                field = created_field,
+                risk = risk
+            )
+
+        return risk
         
 class RiskTypeDefaultFieldSerializer(DefaultSerializer):
     class Meta(DefaultSerializer.Meta):
