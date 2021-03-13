@@ -4,5 +4,5 @@ from .field import Field
 class FieldValue(models.Model):
     label = models.TextField()
     value = models.TextField()
-    field = models.ForeignKey(Field, on_delete=models.CASCADE)
+    field = models.ForeignKey(Field, on_delete=models.CASCADE, related_name="options")
 
