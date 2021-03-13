@@ -1,8 +1,11 @@
 <template>
   <div class="new-risk-type">
-    <h2 class="title">
-      New Risk Type
-    </h2>
+    <header class="header">
+      <h2 class="title">
+        New Risk
+      </h2>
+      <button class="form-button" @click="save">Save</button>
+    </header>
     <FormulateForm class="form-content" v-model="form">
       <div class="form-details">
         <FormulateInput type="text" label="Name" name="name" validation="required" />
@@ -62,6 +65,10 @@
       isFieldTypeEnum(index, element){
         console.log(element);
         return this.form.fields[index] && this.form.fields[index].type === "enum";
+      },
+
+      save(){
+        
       }
     }
   };
@@ -76,6 +83,19 @@
     font-size: 30px;
     font-weight: bold;
     margin-bottom: 10px;
+  }
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+    .form-button {
+      font-size: 15px;
+      padding: 10px 20px;
+      color: $text-on-primary;
+      background: $primary-color;
+      border-radius: 5px;
+      cursor: pointer;
+    }
   }
 
   .form-content {
