@@ -90,7 +90,7 @@
     
     async mounted() {
       try {
-        const riskTypesResponse = await axios.get("http://0.0.0.0:8000/api/v1/risk-type/?fields=id,name");
+        const riskTypesResponse = await axios.get("http://0.0.0.0:8010/api/v1/risk-type/?fields=id,name");
         this.riskTypes = riskTypesResponse.data.map(a => ({ label: a.name, value: a.id }));
       } catch (e){
         this.$toastr.e(`An error occurred when trying to retrieve the risk types: ${e}`);
@@ -100,7 +100,7 @@
     methods: {
       async save(){
         try {
-          const result = await axios.post("http://0.0.0.0:8000/api/v1/risk/", this.risk);
+          const result = await axios.post("http://0.0.0.0:8010/api/v1/risk/", this.risk);
           
           this.$toastr.s(`Risk "${result.data.name}" created successfully.`);
           this.reset();
@@ -132,7 +132,7 @@
       async getTypeFields(typeId){
         if (!typeId) return;
         try {
-          const riskTypesResponse = await axios.get(`http://0.0.0.0:8000/api/v1/risk-type/${typeId}/?fields=fields`);
+          const riskTypesResponse = await axios.get(`http://0.0.0.0:8010/api/v1/risk-type/${typeId}/?fields=fields`);
           this.risk.fields = riskTypesResponse.data.fields;
         } catch (e){
           this.$toastr.e(`An error occurred when trying to retrieve the risk types: ${e}`);

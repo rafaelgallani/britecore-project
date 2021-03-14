@@ -68,7 +68,7 @@
 
       async save(){
         try {
-          const result = await axios.post("http://0.0.0.0:8000/api/v1/risk-type/", this.form);
+          const result = await axios.post("http://0.0.0.0:8010/api/v1/risk-type/", this.form);
           
           this.$toastr.s(`Risk type "${result.data.name}" created successfully.`);
           this.reset();
