@@ -14,6 +14,11 @@ new Vue({
   render: h => h(App),
   mounted(){
     this.$toastr.defaultClassNames = ["animated", "zoomInUp"];
+    // Change Toast Position
     this.$toastr.defaultPosition = "toast-top-right";
+    // Send message to browser screen
+    this.$toastr.s(
+      "This Message From Toastr Plugin\n You can access this plugin : <font color='yellow'>this.$toastr</font>"
+    );
   }
 }).$mount("#app");

@@ -1,12 +1,12 @@
 <template>
   <div class="new-risk-type">
-    <header class="header">
-      <h2 class="title">
-        New Risk
-      </h2>
-      <button class="form-button" @click="save">Save</button>
-    </header>
-    <FormulateForm class="form-content" v-model="form">
+    <FormulateForm name="main" class="form-content" v-model="form" @submit="save" >
+      <header class="header">
+        <h2 class="title">
+          New Risk
+        </h2>
+        <FormulateInput type="submit">Save</FormulateInput>
+      </header>
       <div class="form-details">
         <FormulateInput type="text" label="Name" name="name" validation="required" />
         <FormulateInput type="text" label="Description" name="description"
@@ -19,8 +19,7 @@
         >
           <a v-if="isFieldTypeEnum(index)"/>
           <div class="field" >
-            <FormulateInput name="type" type="select" label="Type" validation="required"
-              :options="Constants.FIELD_TYPES" />
+            <FormulateInput name="field_type" type="select" label="Type" validation="required" :options="Constants.FIELD_TYPES" />
             <FormulateInput name="name" label="Name" type="text" validation="required" />
             <FormulateInput name="required" label="Required?" type="checkbox" />
 
@@ -41,6 +40,7 @@
 <script>
   import Vue from "vue";
   import * as VueFormulate from "@braid/vue-formulate";
+  import axios from "axios";
   Vue.use(VueFormulate.default);
   export default {
     name: "NewRiskType",
@@ -48,10 +48,10 @@
       return {
         Constants: {
           FIELD_TYPES: { 
-            text: "Text", 
-            number: "Number", 
-            date: "Date", 
-            enum: "Option"
+            TEXT: "Text", 
+            NUMBER: "Number", 
+            DATE: "Date", 
+            ENUM: "Options"
           },
         },
         form: {
@@ -62,13 +62,32 @@
       };
     },
     methods: {
-      isFieldTypeEnum(index, element){
-        console.log(element);
-        return this.form.fields[index] && this.form.fields[index].type === "enum";
+      isFieldTypeEnum(index){
+        return this.form.fields[index] && this.form.fields[index].field_type === "ENUM";
       },
 
-      save(){
-        
+      async save(){
+        try {
+          const result = await axios.post("http://0.0.0.0:8000/api/v1/risk-type/", this.form);
+          
+          this.$toastr.s(`Risk type "${result.data.name}" created successfully.`);
+          this.reset();
+          
+        } catch (e){
+          this.$toastr.e(`An error occurred when trying to create the risk: ${e}`);
+        }
+      },
+
+      reset(){
+        this.$formulate.reset("main", {
+          name: "",
+          description: "",
+          fields: [{
+            field_type: "TEXT"
+          }],
+        });
+
+        this.$forceUpdate();
       }
     }
   };
@@ -86,6 +105,7 @@
   }
 
   .header {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     .form-button {
