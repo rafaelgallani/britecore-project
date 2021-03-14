@@ -1,47 +1,47 @@
 <template>
   <div class="new-risk">
-    <header class="header">
-      <h2 class="title">
-        New Risk
-      </h2>
-      <button class="form-button" @click="save">Save</button>
-    </header>
-    <FormulateForm class="form-content" v-model="risk">
+    <FormulateForm name="risk-form" class="form-content" v-model="risk" @submit="save">
+      <header class="header">
+        <h2 class="title">
+          New Risk
+        </h2>
+        <FormulateInput type="submit">Save</FormulateInput>
+      </header>
       <div class="form-details">
         <FormulateInput
-          name="type"
+          name="risk_type"
           :options="riskTypes"
           type="select"
           @input="getTypeFields"
           placeholder="Select a risk type"
           label="Risk Type"
+          validation="required"
         />
         <FormulateInput type="text" label="Name" name="name" validation="required" />
         <FormulateInput type="text" label="Description" name="description"
           validation="required" />
       </div>
-      <div class="form-fields" v-if="risk.type != null">
+      <div class="form-fields" v-if="risk.risk_type != null">
         <FormulateInput class="form-fields-group" type="group" name="fields" label="Default fields"
           :help="`The fields for the ${getSelectedRiskTypeLabel()} risk type.`"
           validation="required" #default="{ index }" :minimum="risk.fields.length"
         >
           <div v-if="risk.fields[index] != null" class="field" >
-            <!-- <FormulateInput name="name" label="Name" type="text" validation="required" /> -->
             <FormulateInput name="value" :label="risk.fields[index].name" :type="getInputType(risk.fields[index])" validation="required" :options="risk.fields[index].options"/>
           </div>
         </FormulateInput>
 
         <FormulateInput class="form-fields-group" type="group" name="customFields" label="Custom fields"
           help="These fields will only be added to this specific risk. You can use this section to add information present only in this particular record."
-          add-label="Add Custom Field" validation="required" :repeatable="true"  #default="{ index }" minimum="0"
+          add-label="Add Custom Field" :repeatable="true"  #default="{ index }" minimum="0"
         >
-          <a v-if="risk.customFields[index] && risk.customFields[index].type === 'enum' "/>
+          <a v-if="risk.customFields[index] && risk.customFields[index].field_type === 'ENUM' "/>
           <div v-if="risk.customFields[index] != null" class="field" >
-            <FormulateInput name="type" type="select" label="Type" validation="required" :options="Constants.FIELD_TYPES" />
+            <FormulateInput name="field_type" type="select" label="Type" validation="required" :options="Constants.FIELD_TYPES" />
             <FormulateInput name="name" label="Name" type="text" validation="required" />
             <FormulateInput name="value" label="Value" :type="getInputType(risk.customFields[index])" validation="required" :options="risk.customFields[index].options"/>
 
-            <FormulateInput v-if="risk.customFields[index].type === 'enum'" class="field-options" type="group" name="options" label="Values"
+            <FormulateInput v-if="risk.customFields[index].field_type === 'ENUM'" class="field-options" type="group" name="options" label="Values"
               minimum="1" add-label="Add Field" validation="required" :repeatable="true">
               <div class="field">
                 <FormulateInput name="label" label="Label" type="text" validation="required" />
@@ -59,93 +59,84 @@
   import Vue from "vue";
   import * as VueFormulate from "@braid/vue-formulate";
   Vue.use(VueFormulate.default);
+  import axios from "axios";
   export default {
     name: "NewRisk",
     data: function () {
       return {
         Constants: {
           FIELD_TYPES: { 
-            text: "Text", 
-            number: "Number", 
-            date: "Date", 
-            enum: "Option"
+            TEXT: "Text", 
+            NUMBER: "Number", 
+            DATE: "Date", 
+            ENUM: "Options"
+          },
+          htmlFieldTypeMap: {
+            "Text": "text",
+            "Number": "number",
+            "Date": "date",
           },
         },
-        riskTypes: [
-          {
-            label: "Car",
-            value: "car",
-          },
-          {
-            label: "House",
-            value: "house",
-          },
-          {
-            label: "Prize",
-            value: "prize",
-          }
-        ],
+        riskTypes: [],
         risk: {
           name: null,
-          type: null,
+          risk_type: null,
           description: null,
           fields: [],
           customFields: [],
         }
       };
     },
+    
+    async mounted() {
+      try {
+        const riskTypesResponse = await axios.get("http://0.0.0.0:8000/api/v1/risk-type/?fields=id,name");
+        this.riskTypes = riskTypesResponse.data.map(a => ({ label: a.name, value: a.id }));
+      } catch (e){
+        this.$toastr.e(`An error occurred when trying to retrieve the risk types: ${e}`);
+      }
+    },
+
     methods: {
-      save(){
-        console.log(this.risk);
+      async save(){
+        try {
+          const result = await axios.post("http://0.0.0.0:8000/api/v1/risk/", this.risk);
+          
+          this.$toastr.s(`Risk "${result.data.name}" created successfully.`);
+          this.reset();
+          
+        } catch (e){
+          this.$toastr.e(`An error occurred when trying to create the risk: ${e}`);
+        }
+      },
+
+      reset(){
+        this.$formulate.reset("risk-form", {
+          name: null,
+          risk_type: null,
+          description: null,
+          fields: [],
+          customFields: [],
+        });
       },
 
       getSelectedRiskTypeLabel(){
-        return this.riskTypes.find(riskType => riskType.value === this.risk.type).label;
+        return this.riskTypes.find(riskType => riskType.value === this.risk.risk_type).label;
       },
 
       getInputType(field){
-        if (field.type === "enum") return "select";
-        return field.type;
+        if (field.field_type === "ENUM") return "select";
+        return this.Constants.htmlFieldTypeMap[field.field_type];
       },
       
       async getTypeFields(typeId){
-        const fields = await new Promise((resolve) => {
-          resolve([
-            {
-              name: `Name - ${typeId}`,
-              type: "text",
-            },
-            {
-              name: "Test",
-              type: "text",
-            },
-            {
-              name: "Created date",
-              type: "date",
-            },
-            {
-              name: "Xd",
-              type: "enum",
-              options: [
-                {
-                  label: "v1", 
-                  value: "Valor 1",
-                },
-                {
-                  label: "v2", 
-                  value: "Valor 2",
-                },
-                {
-                  label: "v3", 
-                  value: "Valor 3",
-                },
-              ]
-            },
-          ]);
-        });
-
-        this.risk.fields = fields;
-        return fields;
+        if (!typeId) return;
+        try {
+          const riskTypesResponse = await axios.get(`http://0.0.0.0:8000/api/v1/risk-type/${typeId}/?fields=fields`);
+          this.risk.fields = riskTypesResponse.data.fields;
+        } catch (e){
+          this.$toastr.e(`An error occurred when trying to retrieve the risk types: ${e}`);
+        }
       }
     }
   };
