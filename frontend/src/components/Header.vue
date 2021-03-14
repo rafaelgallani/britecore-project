@@ -4,7 +4,8 @@
       class="logo"
       alt="Vue logo"
       src="@/assets/logo.svg"
-    >
+      @click="goToHome"
+    />
     <div id="nav">
       <router-link to="/">
         Home
@@ -19,6 +20,11 @@
 <script>
   export default {
     name: "Header",
+    methods: {
+      goToHome(){
+        this.$router.push("/");
+      }
+    }
   };
 </script>
 
@@ -37,6 +43,7 @@
       max-width: 300px;
       min-width: 200px;
       width: 15%;
+      cursor: pointer;
     }
 
     #nav {
