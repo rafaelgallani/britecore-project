@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf import settings # to import static in deployment
+from django.conf.urls.static import static # to import static in deployment
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('api.urls')),
-]
+]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) # to import static in deployment
