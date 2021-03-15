@@ -1,29 +1,27 @@
 <template>
-  <div class="manage-risk-type">
-    <div v-for="form in risks" :key="form.id">
+  <div class="manage-risk">
+    <div v-for="risk in risks" :key="risk.id">
       <FormulateForm name="main" class="form-content" >
         <header class="header">
           <h2 class="title">
-            {{form.name}}
+            {{risk.name}}
           </h2>
-          <FormulateInput type="submit" @click="listCreatedRisks(form)">View risks</FormulateInput>
         </header>
         <div class="form-details">
-          <FormulateInput type="text" label="Name" name="name" :value="form.name" validation="required" disabled="true" />
-          <FormulateInput type="text" label="Description" name="description" :value="form.description" validation="required" disabled="true" />
+          <FormulateInput type="text" label="Name" name="name" :value="risk.name" validation="required" disabled="true" />
+          <FormulateInput type="text" label="Description" name="description" :value="risk.description" validation="required" disabled="true" />
         </div>
         <div class="form-fields">
-          <FormulateInput class="form-fields-group" type="group" v-model="form.fields" label="Default fields"
-            help="These fields will be added by default when you create a new risk of this type."
-            validation="required" :repeatable="true"  #default="{ index }" :minimum="form.fields.length"
+          <FormulateInput class="form-fields-group" type="group" v-model="risk.fields" :label="`${risk.name} fields`"
+            validation="required" :repeatable="true"  #default="{ index }" :minimum="risk.fields.length"
           >
-            <a v-if="isFieldTypeEnum(index, form.fields)"/>
-            <div class="field" >
-              <FormulateInput name="field_type" type="select" label="Type" validation="required" :options="Constants.FIELD_TYPES" disabled="true"/>
-              <FormulateInput name="name" label="Name" type="text" validation="required" disabled="true"/>
-              <FormulateInput name="required" label="Required?" type="checkbox" disabled="true"/>
+            <a v-if="isFieldTypeEnum(index, risk.fields)"/>
+            <div v-if="risk.fields[index]" class="field" >
+              <FormulateInput :value="risk.fields[index].field.field_type" type="select" label="Type" validation="required" :options="Constants.FIELD_TYPES" disabled="true"/>
+              <FormulateInput :value="risk.fields[index].field.name" label="Name" type="text" validation="required" disabled="true"/>
+              <FormulateInput name="value" label="Value" :type="getInputType(risk.fields[index].field)" validation="required" :options=" risk.fields[index].field.options" disabled="true" :value="risk.fields[index].value"/>
 
-              <FormulateInput v-if="isFieldTypeEnum(index, form.fields)" class="field-options" type="group" name="options" label="Values"
+              <FormulateInput v-if="isFieldTypeEnum(index, risk.fields)" class="field-options" type="group" v-model="risk.fields[index].field.options" label="Values"
                 minimum="1" add-label="Add Field" validation="required" :repeatable="true">
                 <div class="field">
                   <FormulateInput name="label" label="Label" type="text" validation="required" disabled="true"/>
@@ -44,7 +42,7 @@
   import axios from "axios";
   Vue.use(VueFormulate.default);
   export default {
-    name: "ManageRiskType",
+    name: "ManageRisks",
     data: function () {
       return {
         Constants: {
@@ -54,6 +52,11 @@
             DATE: "Date", 
             ENUM: "Options"
           },
+          htmlFieldTypeMap: {
+            "TEXT": "text",
+            "NUMBER": "number",
+            "DATE": "date",
+          },
         },
         risks: [],
       };
@@ -61,10 +64,12 @@
     
     async mounted() {
       try {
-        const riskTypesResponse = await axios.get("/api/v1/risk-type/");
-        this.risks = riskTypesResponse.data;
+        eval("debugger");
+        const { riskTypeId } = this.$route.params;
+        const riskTypesResponse = await axios.get(`/api/v1/risk-type/${riskTypeId}`);
+        this.risks = riskTypesResponse.data.risks;
       } catch (e){
-        this.$toastr.e(`An error occurred when trying to retrieve the risk types: ${e}`);
+        this.$toastr.e(`An error occurred when trying to retrieve the risks: ${e}`);
       }
     },
 
@@ -74,6 +79,11 @@
           return fields[index] && fields[index].field_type === "ENUM";
         }
         return false;
+      },
+
+      getInputType(field){
+        if (field.field_type === "ENUM") return "select";
+        return this.Constants.htmlFieldTypeMap[field.field_type];
       },
 
       async listCreatedRisks(form){
@@ -144,11 +154,11 @@
     }
   }
 
-  .manage-risk-type .formulate-input-group-add-more{
-    display: none;
+  .manage-risk .formulate-input-group-add-more{
+    display: none!important;
   }
   
-  .manage-risk-type .formulate-input-group-repeatable {
+  .manage-risk .formulate-input-group-repeatable {
       border-bottom: none!important;
   }
 

@@ -4,7 +4,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import NewRisk from "../views/NewRisk.vue";
 import NewRiskType from "../views/NewRiskType.vue";
-import ManageRisk from "../views/ManageRisk.vue";
+import ManageRisks from "../views/ManageRisks.vue";
 import ManageRiskType from "../views/ManageRiskType.vue";
 import About from  "../views/About.vue";
 
@@ -32,9 +32,9 @@ const routes = [
     component: ManageRiskType
   },
   {
-    path: "/manage/risk",
-    name: "Manage Risk",
-    component: ManageRisk
+    path: "/manage/risktype/:riskTypeId",
+    name: "Manage Risks",
+    component: ManageRisks
   },
   {
     path: "/about",

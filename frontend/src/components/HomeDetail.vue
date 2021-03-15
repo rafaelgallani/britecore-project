@@ -32,7 +32,7 @@
           description="Adds a new Risk record"
         />
       </div>
-      <div @click="navigate('manage/risks')">
+      <div @click="navigate('manage/risktype')">
         <action-card 
           class="action"
           title="Manage a Risk"
