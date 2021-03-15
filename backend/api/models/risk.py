@@ -5,6 +5,6 @@ from .field import Field
 class Risk(models.Model):
     name = models.TextField()
     description = models.TextField()
-    risk_type = models.ForeignKey(RiskType, on_delete=models.CASCADE)
+    risk_type = models.ForeignKey(RiskType, on_delete=models.CASCADE, related_name="risks")
 
     fields = models.ManyToManyField(Field, through='RiskField')

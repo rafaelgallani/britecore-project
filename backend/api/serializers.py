@@ -91,6 +91,7 @@ class RiskTypeFieldSerializer(DefaultSerializer):
         
 class RiskTypeSerializer(DefaultSerializer):
     
+    risks = RiskSerializer(many=True)
     fields = RiskTypeFieldSerializer(many=True)
 
     class Meta(DefaultSerializer.Meta):
