@@ -90,7 +90,7 @@
     
     async mounted() {
       try {
-        const riskTypesResponse = await axios.get("/api/v1/risk-type/?fields=id,name");
+        const riskTypesResponse = await axios.get("http://localhost:8020/api/v1/risk-type/?fields=id,name");
         this.riskTypes = riskTypesResponse.data.map(a => ({ label: a.name, value: a.id }));
       } catch (e){
         this.$toastr.e(`An error occurred when trying to retrieve the risk types: ${e}`);
@@ -100,7 +100,7 @@
     methods: {
       async save(){
         try {
-          const result = await axios.post("/api/v1/risk/", this.risk);
+          const result = await axios.post("http://localhost:8020/api/v1/risk/", this.risk);
           
           this.$toastr.s(`Risk "${result.data.name}" created successfully.`);
           this.reset();
