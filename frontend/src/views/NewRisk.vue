@@ -72,9 +72,9 @@
             ENUM: "Options"
           },
           htmlFieldTypeMap: {
-            "Text": "text",
-            "Number": "number",
-            "Date": "date",
+            "TEXT": "text",
+            "NUMBER": "number",
+            "DATE": "date",
           },
         },
         riskTypes: [],
@@ -100,6 +100,15 @@
     methods: {
       async save(){
         try {
+          
+          this.risk.fields = this.risk.fields.concat(this.risk.customFields);
+          this.risk.fields = this.risk.fields.map(riskField => {
+            const { value, ...fieldData } = riskField;
+            riskField.field = fieldData;
+            riskField.value = value;
+            return riskField;
+          });
+
           const result = await axios.post("/api/v1/risk/", this.risk);
           
           this.$toastr.s(`Risk "${result.data.name}" created successfully.`);
@@ -126,6 +135,7 @@
 
       getInputType(field){
         if (field.field_type === "ENUM") return "select";
+        //eval("debugger");
         return this.Constants.htmlFieldTypeMap[field.field_type];
       },
       
