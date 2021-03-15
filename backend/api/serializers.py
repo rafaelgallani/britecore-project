@@ -34,17 +34,16 @@ class FieldSerializer(DefaultSerializer):
         return field
 
 class RiskFieldSerializer(DefaultSerializer):
-    name = serializers.CharField()
-    field_type = serializers.CharField()
-    options = FieldValueSerializer(many=True, required=False)
+    field = FieldSerializer()
+    risk = serializers.PrimaryKeyRelatedField(many=False, read_only=True)
+    value = serializers.CharField()
 
     class Meta(DefaultSerializer.Meta):
         model = RiskField
-        fields = ['field_type', 'name', 'options']
+        depth = 0
 
 class RiskSerializer(DefaultSerializer):
-    
-    fields = FieldSerializer(many=True)
+    fields = RiskFieldSerializer(many=True)
 
     class Meta(DefaultSerializer.Meta):
         model = Risk
@@ -52,11 +51,16 @@ class RiskSerializer(DefaultSerializer):
     def create(self, validated_data):
         fields = validated_data.pop('fields')
         risk = Risk.objects.create(**validated_data)
-        
+        all_fields = []
+
         for field in fields:
             
-            field_options = field.pop('options', []);
-            created_field = Field.objects.create(**field)
+            risk_field_value = field.pop('value')
+
+            field_data = field.pop('field')
+            field_options = field_data.pop('options', []);
+
+            created_field = Field.objects.create(**field_data)
             
             options = []
 
@@ -70,12 +74,17 @@ class RiskSerializer(DefaultSerializer):
             created_field.options.set(options)
 
             default_field = RiskField.objects.create(
+                value = risk_field_value,
                 field = created_field,
                 risk = risk
             )
+            all_fields.append(default_field)
+        
+        risk.fields.set(all_fields)
 
         return risk
-        
+
+
 class RiskTypeDefaultFieldSerializer(DefaultSerializer):
     class Meta(DefaultSerializer.Meta):
         model = RiskTypeDefaultField
@@ -91,7 +100,7 @@ class RiskTypeFieldSerializer(DefaultSerializer):
         
 class RiskTypeSerializer(DefaultSerializer):
     
-    risks = RiskSerializer(many=True)
+    risks = RiskSerializer(many=True, required=False)
     fields = RiskTypeFieldSerializer(many=True)
 
     class Meta(DefaultSerializer.Meta):

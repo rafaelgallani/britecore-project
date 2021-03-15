@@ -7,4 +7,4 @@ class Risk(models.Model):
     description = models.TextField()
     risk_type = models.ForeignKey(RiskType, on_delete=models.CASCADE, related_name="risks")
 
-    fields = models.ManyToManyField(Field, through='RiskField')
+    #fields = models.ManyToManyField(Field, through='RiskField')
