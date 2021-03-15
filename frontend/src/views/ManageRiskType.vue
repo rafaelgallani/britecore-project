@@ -61,7 +61,7 @@
     
     async mounted() {
       try {
-        const riskTypesResponse = await axios.get("http://localhost:8020/api/v1/risk-type/");
+        const riskTypesResponse = await axios.get("/api/v1/risk-type/");
         this.risks = riskTypesResponse.data;
       } catch (e){
         this.$toastr.e(`An error occurred when trying to retrieve the risk types: ${e}`);
