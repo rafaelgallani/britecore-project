@@ -4,5 +4,5 @@ if [ -n "$DJANGO_SUPERUSER_USERNAME" ] && [ -n "$DJANGO_SUPERUSER_PASSWORD" ] ; 
     (python manage.py createsuperuser --no-input)
 fi
 python manage.py migrate
-(uwsgi --socket :8010 --wsgi-file backend/wsgi.py) &
+(uwsgi --socket :8010 -b 32768 --wsgi-file backend/wsgi.py) &
 nginx -g "daemon off;"
