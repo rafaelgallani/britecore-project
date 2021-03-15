@@ -4,7 +4,7 @@ FROM python:3.9.1-buster
 
 RUN apt-get update && apt-get install nginx vim -y --no-install-recommends
 
-COPY nginx.default /etc/nginx/sites-available/default
+COPY nginx.default /etc/nginx/nginx.conf
 
 RUN ln -sf /dev/stdout /var/log/nginx/access.log && ln -sf /dev/stderr /var/log/nginx/error.log
 
@@ -18,6 +18,7 @@ RUN chown -R www-data:www-data /opt/app
 
 EXPOSE 8000
 EXPOSE 8010
+EXPOSE 8020
 STOPSIGNAL SIGTERM
 CMD ["/opt/app/start.sh"]
 
