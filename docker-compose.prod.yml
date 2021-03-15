@@ -1,0 +1,27 @@
+version: "3.0"
+   
+services:
+  
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=britecore
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+  
+  backend:
+    image: rafaelgalani/britecore-backend
+    ports:
+      - "8000:8000"
+      - "8010:8010"
+    links:
+      - db
+
+  frontend: 
+    image: rafaelgalani/britecore-frontend
+    ports: 
+      - "80:80"
+    links:
+      - backend

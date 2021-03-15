@@ -1,0 +1,23 @@
+version: 1
+task_definition:
+  services:
+    db:
+      cpu_shares: 256
+      mem_limit: 0.5GB
+      mem_reservation: 0.5GB
+      
+    backend:
+      cpu_shares: 256
+      mem_limit: 0.5GB
+      mem_reservation: 0.5GB
+      depends_on:
+        - container_name: db
+          condition: START
+
+    frontend:
+      cpu_shares: 256
+      mem_limit: 0.5GB
+      mem_reservation: 0.5GB
+      depends_on:
+        - container_name: backend
+          condition: START
