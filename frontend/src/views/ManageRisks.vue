@@ -33,6 +33,11 @@
         </div>
       </FormulateForm>
     </div>
+    <div v-if="risks.length === 0">
+      <div class="error-message">
+        No risks found for "{{this.risk}}" risk.
+      </div>
+    </div>
   </div>
 </template>
 
@@ -58,6 +63,7 @@
             "DATE": "date",
           },
         },
+        riskType: {},
         risks: [],
       };
     },
@@ -67,7 +73,8 @@
         eval("debugger");
         const { riskTypeId } = this.$route.params;
         const riskTypesResponse = await axios.get(`/api/v1/risk-type/${riskTypeId}`);
-        this.risks = riskTypesResponse.data.risks;
+        this.risk = riskTypesResponse.data;
+        this.risks = this.risk;
       } catch (e){
         this.$toastr.e(`An error occurred when trying to retrieve the risks: ${e}`);
       }

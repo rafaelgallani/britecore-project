@@ -35,6 +35,11 @@
         </div>
       </FormulateForm>
     </div>
+    <div v-if="risks.length === 0">
+      <div class="error-message">
+        No risks type were created yet.
+      </div>
+    </div>
   </div>
 </template>
 
