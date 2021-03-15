@@ -38,6 +38,7 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+    z-index: 100;
 
     .logo {
       max-width: 300px;
