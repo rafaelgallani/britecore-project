@@ -47,7 +47,7 @@ Firstly, you need to create an ECS cluster so you can deploy the containers to i
 $ ecs-cli up --keypair YOUR_KEYPAIR_PATH --capability-iam --size 1 --instance-type YOUR_INSTANCE_TYPE --cluster-config britecore-project-config
 ```
 Running this command will create the ECS cluster and the resources it requires. Some permissions are required to run this command. For this example, you can find the defined permissions in the [aws_default_permissions.json](aws_default_permissions.json) file. These might not be suitable for a production environment.
-`YOUR_INSTANCE_TYPE` refers to an AWS instance type. For this example, I opted for `t2.medium`. It was removed from the example above because it involves cost, so it shouldn't be copy/pasted without thinking :)
+`YOUR_INSTANCE_TYPE` refers to an AWS instance type. For this example, I opted for `t2.micro`. It was removed from the example above because it involves cost, so it shouldn't be copy/pasted without thinking :)
 
 Also, the `keypair` param is not required, but it's strongly recommended. If you don't specify a keypair, you will not be able to `ssh` to your container later in case something goes wrong. You never know...
 
@@ -59,4 +59,6 @@ If everything went OK until here, then all you need to do is run `ecs-cli compos
 
 The `ecs-params` flag specifies a `.yml` path for overriding the default `ecs-cli` generated ones. For this example, it's needed to add dependency between the containers, since, at the time of writing, `ecs-cli` cannot handle the `depends_on` property - that's why `link` and the `ecs-params` file `depends_on` property were also used: with these, containers can find each other through the defined alias name (e.g. `backend`, `db`, `frontend`).
 
-In case some of the steps failed, you can always rollback with `ecs-cli down`.
+_P.S: It might take some time before AWS can actually work with the created resources: in case you receive an error such as "No Container Instances were found in your cluster.", just wait around a minute and it should be fine to proceed._
+
+In case some of the steps failed, you can always rollback with `ecs-cli down --cluster-config britecore-project-config`.
