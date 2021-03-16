@@ -12,7 +12,8 @@ services:
       - "5432:5432"
   
   backend:
-    build: ./backend
+    #build: ./backend
+    image: rafaelgalani/britecore-backend
     ports:
       - "8000:8000"
       - "8010:8010"
@@ -21,7 +22,8 @@ services:
       - db
 
   frontend: 
-    build: ./frontend
+    #build: ./frontend
+    image: rafaelgalani/britecore-frontend
     ports: 
       - "80:80"
     links:
