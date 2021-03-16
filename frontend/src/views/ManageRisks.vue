@@ -35,7 +35,7 @@
     </div>
     <div v-if="risks.length === 0 && !loading">
       <div class="error-message">
-        No risks found for "{{this.risk}}" risk.
+        No risks found for "{{this.risk.name}}" risk.
       </div>
     </div>
   </div>
