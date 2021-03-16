@@ -3,17 +3,17 @@
     <home-card title="Overview">
       <action-card 
         class="action__primary"
-        title="Total Risks"
+        title="Total of Risks"
         :description="count.risks"
       />
       <action-card 
         class="action__primary"
-        title="Total Risk Types"
+        title="Total of Risk Types"
         :description="count.riskTypes"
       />
       <action-card 
         class="action__primary"
-        title="Total Fields"
+        title="Total of Fields"
         :description="count.fields"
       />
     </home-card>
