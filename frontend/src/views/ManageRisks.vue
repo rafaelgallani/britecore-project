@@ -11,7 +11,7 @@
           <FormulateInput type="text" label="Name" name="name" :value="risk.name" validation="required" disabled="true" />
           <FormulateInput type="text" label="Description" name="description" :value="risk.description" validation="required" disabled="true" />
         </div>
-        <div class="form-fields">
+        <div class="form-fields" v-if="risk.fields">
           <FormulateInput class="form-fields-group" type="group" v-model="risk.fields" :label="`${risk.name} fields`"
             validation="required" :repeatable="true"  #default="{ index }" :minimum="risk.fields.length"
           >
@@ -75,8 +75,8 @@
       try {
         const { riskTypeId } = this.$route.params;
         const riskTypesResponse = await axios.get(`/api/v1/risk-type/${riskTypeId}`);
-        this.risk = riskTypesResponse.data;
-        this.risks = this.risk;
+        this.riskType = riskTypesResponse.data;
+        this.risks = this.riskType.risks;
       } catch (e){
         this.$toastr.e(`An error occurred when trying to retrieve the risks: ${e}`);
       }
