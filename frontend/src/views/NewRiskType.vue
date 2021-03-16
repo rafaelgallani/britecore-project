@@ -3,7 +3,7 @@
     <FormulateForm name="main" class="form-content" v-model="form" @submit="save" >
       <header class="header">
         <h2 class="title">
-          New Risk
+          New Risk Type
         </h2>
         <FormulateInput type="submit">Save</FormulateInput>
       </header>
