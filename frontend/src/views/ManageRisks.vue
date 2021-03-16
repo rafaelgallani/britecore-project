@@ -20,7 +20,7 @@
               <FormulateInput :value="risk.fields[index].field.field_type" type="select" label="Type" validation="required" :options="Constants.FIELD_TYPES" disabled="true"/>
               <FormulateInput :value="risk.fields[index].field.name" label="Name" type="text" validation="required" disabled="true"/>
               <FormulateInput name="value" label="Value" :type="getInputType(risk.fields[index].field)" validation="required" :options=" risk.fields[index].field.options" disabled="true" :value="risk.fields[index].value"/>
-
+              <div class="line-break"></div>
               <FormulateInput v-if="isFieldTypeEnum(index, risk.fields)" class="field-options" type="group" v-model="risk.fields[index].field.options" label="Values"
                 minimum="1" add-label="Add Field" validation="required" :repeatable="true">
                 <div class="field">
@@ -115,69 +115,15 @@
 <style lang="scss">
   @import "@/../node_modules/@braid/vue-formulate/themes/snow/snow.scss";
   @import "@/assets/style/vue-formulate-override.scss";
+  @import "@/assets/style/form-reset.scss";
+  .manage-risk {
 
-  .title {
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    .form-button {
-      font-size: 15px;
-      padding: 10px 20px;
-      color: $text-on-primary;
-      background: $primary-color;
-      border-radius: 5px;
-      cursor: pointer;
+    & .formulate-input-group-add-more{
+      display: none!important;
+    }
+    
+    & .formulate-input-group-repeatable {
+        border-bottom: none!important;
     }
   }
-
-  .form-content {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px;
-    margin: auto;
-    margin-top: 20px;
-
-    .form-fields{
-      width: 100%;
-
-      .form-fields-group {
-        width: 100%;
-      }
-
-      .field .field-options {
-        position: relative;
-        flex-basis: 85%;
-        margin-top: 30px;
-
-        .formulate-input{
-          width: calc(50% - 20px);
-        }
-      }
-    }
-
-    &>.form-details{
-      flex-basis: 100%;
-      display: flex;
-
-      .formulate-input + .formulate-input {
-        padding-left: 10em;
-      }
-    }
-  }
-
-  .manage-risk .formulate-input-group-add-more{
-    display: none!important;
-  }
-  
-  .manage-risk .formulate-input-group-repeatable {
-      border-bottom: none!important;
-  }
-
 </style>

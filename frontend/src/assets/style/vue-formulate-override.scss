@@ -1,7 +1,10 @@
 .field{
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+
+  .formulate-input{
+    flex: 1;
+  }
 }
 
 .formulate-input .formulate-input-element {
@@ -19,10 +22,18 @@
   top: 11px;
 }
 
-.formulate-input-grouping .formulate-input {
-  margin-bottom: 0;
-  margin-left: 10px;
-  width: 25%;
+.formulate-input-grouping{
+  width: 100%;
+  position: relative;
+  
+  .formulate-input {
+    margin-bottom: 0;
+    margin-left: 10px;
+  }
+} 
+
+.formulate-input-group-repeatable {
+  padding-bottom: 1.2em!important;
 }
 
 .formulate-input[data-classification="group"] [data-is-repeatable] .formulate-input-group-repeatable-remove:not(:only-of-type) {

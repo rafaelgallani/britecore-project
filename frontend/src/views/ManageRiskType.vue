@@ -21,8 +21,7 @@
             <div class="field" >
               <FormulateInput name="field_type" type="select" label="Type" validation="required" :options="Constants.FIELD_TYPES" disabled="true"/>
               <FormulateInput name="name" label="Name" type="text" validation="required" disabled="true"/>
-              <FormulateInput name="required" label="Required?" type="checkbox" disabled="true"/>
-
+              <div class="line-break"></div>
               <FormulateInput v-if="isFieldTypeEnum(index, form.fields)" class="field-options" type="group" name="options" label="Values"
                 minimum="1" add-label="Add Field" validation="required" :repeatable="true">
                 <div class="field">
@@ -104,69 +103,16 @@
 <style lang="scss">
   @import "@/../node_modules/@braid/vue-formulate/themes/snow/snow.scss";
   @import "@/assets/style/vue-formulate-override.scss";
+  @import "@/assets/style/form-reset.scss";
+  .manage-risk-type {
 
-  .title {
-    font-size: 30px;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  .header {
-    width: 100%;
-    display: flex;
-    justify-content: space-between;
-    .form-button {
-      font-size: 15px;
-      padding: 10px 20px;
-      color: $text-on-primary;
-      background: $primary-color;
-      border-radius: 5px;
-      cursor: pointer;
+    & .formulate-input-group-add-more{
+      display: none;
     }
-  }
-
-  .form-content {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    padding: 10px;
-    margin: auto;
-    margin-top: 20px;
-
-    .form-fields{
-      width: 100%;
-
-      .form-fields-group {
-        width: 100%;
-      }
-
-      .field .field-options {
-        position: relative;
-        flex-basis: 85%;
-        margin-top: 30px;
-
-        .formulate-input{
-          width: calc(50% - 20px);
-        }
-      }
-    }
-
-    &>.form-details{
-      flex-basis: 100%;
-      display: flex;
-
-      .formulate-input + .formulate-input {
-        padding-left: 10em;
-      }
-    }
-  }
-
-  .manage-risk-type .formulate-input-group-add-more{
-    display: none;
-  }
-  
-  .manage-risk-type .formulate-input-group-repeatable {
+    
+    & .formulate-input-group-repeatable {
       border-bottom: none!important;
+    }
   }
 
 </style>

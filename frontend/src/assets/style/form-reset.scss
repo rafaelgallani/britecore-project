@@ -1,0 +1,64 @@
+.form-content {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 10px;
+  margin: auto;
+  margin-top: 20px;
+
+  .form-fields {
+    width: 100%;
+
+    .form-fields-group {
+      width: 100%;
+    }
+
+    .field .field-options {
+      position: relative;
+      flex-grow: 3;
+      margin-top: 30px;
+
+      .formulate-input {
+        width: calc(50% - 20px);
+      }
+    }
+  }
+
+  &>.form-details {
+    flex-basis: 100%;
+    display: flex;
+
+    .formulate-input {
+      flex: 1;
+
+      &+.formulate-input {
+        padding-left: 10px;
+      }
+    }
+  }
+}
+
+.line-break {
+  width: 100%;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+
+  .form-button {
+    font-size: 15px;
+    padding: 10px 20px;
+    color: $text-on-primary;
+    background: $primary-color;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+}
