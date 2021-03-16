@@ -33,6 +33,9 @@ Since it was built with Django, most of the hard work of handling all HTTP verbs
 
 You can find more specific information about it [here](frontend/README.md).
 
+## Live instance: 
+You can preview a live instance at http://rafaelgalani-britecore-project.xyz/.
+
 ## Cloud platforms:
 
 It can be easily set up using any cloud platform. Here's an example of the installation script to AWS platform (using ECS), considering you already have `aws cli` installed and configured at your system:
