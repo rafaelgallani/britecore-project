@@ -4,17 +4,17 @@
       <action-card 
         class="action__primary"
         title="Total Risks"
-        description="766"
+        :description="count.risks"
       />
       <action-card 
         class="action__primary"
         title="Total Risk Types"
-        description="1.082"
+        :description="count.riskTypes"
       />
       <action-card 
         class="action__primary"
         title="Total Fields"
-        description="7.223"
+        :description="count.fields"
       />
     </home-card>
     <home-card title="Actions">
@@ -47,15 +47,51 @@
 import HomeCard from "./HomeCard.vue";
 import ActionCard from "./ActionCard.vue";
 import router from "../router";
+import axios from "axios";
 
 export default {
   name: "HomeDetail",
   components: { ActionCard, HomeCard },
+  data: function () {
+    return {
+      count: {
+        risks: "-",
+        riskTypes: "-",
+        fields: "-",
+      },
+      loading: true,
+      loader: null,
+      riskType: {},
+      risks: [],
+    };
+  },
+  
+  async mounted(){
+    this.toggleLoading(true);
+    await Promise.all([
+      await axios.get("/api/v1/risk/?fields=id").then(
+        result => this.count.risks = result.data.length
+      ),
+      await axios.get("/api/v1/risk-type/?fields=id").then(
+        result => this.count.riskTypes = result.data.length
+      ),
+      await axios.get("/api/v1/field/?fields=id").then(
+        result => this.count.fields = result.data.length
+      ),
+    ]);
+    this.toggleLoading(false);
+  },
   methods: {
     navigate(url) {
       let [ path, param ] = url.split("/");
       const route = param? { path: `/${path}/${param}` } : path;
       router.push(route);
+    },
+
+    toggleLoading(toggle){
+      this.loading = toggle;
+      if (toggle) this.loader = this.$loading.show();
+      if (!toggle) if (this.loader) this.loader.hide();
     },
   }
 };
