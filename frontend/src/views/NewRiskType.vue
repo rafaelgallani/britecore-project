@@ -54,6 +54,8 @@
             ENUM: "Options"
           },
         },
+        loading: false,
+        loader: null,
         form: {
           name: "",
           description: "",
@@ -62,11 +64,19 @@
       };
     },
     methods: {
+
+      toggleLoading(toggle){
+        this.loading = toggle;
+        if (toggle) this.loader = this.$loading.show();
+        if (!toggle) if (this.loader) this.loader.hide();
+      },
+      
       isFieldTypeEnum(index){
         return this.form.fields[index] && this.form.fields[index].field_type === "ENUM";
       },
 
       async save(){
+        this.toggleLoading(true);
         try {
           const result = await axios.post("/api/v1/risk-type/", this.form);
           
@@ -76,6 +86,7 @@
         } catch (e){
           this.$toastr.e(`An error occurred when trying to create the risk: ${e}`);
         }
+        this.toggleLoading(false);
       },
 
       reset(){

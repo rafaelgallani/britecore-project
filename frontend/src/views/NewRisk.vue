@@ -98,7 +98,15 @@
     },
 
     methods: {
+
+      toggleLoading(toggle){
+        this.loading = toggle;
+        if (toggle) this.loader = this.$loading.show();
+        if (!toggle) if (this.loader) this.loader.hide();
+      },
+      
       async save(){
+        this.toggleLoading(true);
         try {
           
           this.risk.fields = this.risk.fields.concat(this.risk.customFields);
@@ -117,6 +125,7 @@
         } catch (e){
           this.$toastr.e(`An error occurred when trying to create the risk: ${e}`);
         }
+        this.toggleLoading(false);
       },
 
       reset(){

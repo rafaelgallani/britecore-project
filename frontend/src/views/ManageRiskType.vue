@@ -35,7 +35,7 @@
         </div>
       </FormulateForm>
     </div>
-    <div v-if="risks.length === 0">
+    <div v-if="risks.length === 0 && !loading">
       <div class="error-message">
         No risks type were created yet.
       </div>
@@ -60,20 +60,31 @@
             ENUM: "Options"
           },
         },
+        loader: null,
+        loading: true,
         risks: [],
       };
     },
     
     async mounted() {
+      this.toggleLoading(true);
       try {
         const riskTypesResponse = await axios.get("/api/v1/risk-type/");
         this.risks = riskTypesResponse.data;
       } catch (e){
         this.$toastr.e(`An error occurred when trying to retrieve the risk types: ${e}`);
       }
+      this.toggleLoading(false);
     },
 
     methods: {
+
+      toggleLoading(toggle){
+        this.loading = toggle;
+        if (toggle) this.loader = this.$loading.show();
+        if (!toggle) if (this.loader) this.loader.hide();
+      },
+
       isFieldTypeEnum(index, fields){
         if (index >= 0 && fields){
           return fields[index] && fields[index].field_type === "ENUM";
