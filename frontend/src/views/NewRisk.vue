@@ -62,6 +62,7 @@
   import axios from "axios";
   export default {
     name: "NewRisk",
+    title: "Create - Risk",
     data: function () {
       return {
         Constants: {

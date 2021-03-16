@@ -3,6 +3,7 @@ import App from "./App.vue";
 import VueToastr from "vue-toastr";
 import router from "./router";
 import Loading from "vue-loading-overlay";
+import titleMixin from "./title.mixin";
 
 import "vue-loading-overlay/dist/vue-loading.css";
 Vue.use(Loading, { 
@@ -11,6 +12,8 @@ Vue.use(Loading, {
 },{
   // slots
 });
+
+Vue.mixin(titleMixin);
 
 Vue.use(VueToastr, {
   /* OverWrite Plugin Options if you need */

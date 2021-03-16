@@ -9,6 +9,7 @@ import HomeDetail from "../components/HomeDetail.vue";
 
 export default {
   name: "Home",
+  title: "Home",
   components: {
     HomeDetail
   }

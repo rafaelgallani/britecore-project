@@ -44,6 +44,7 @@
   Vue.use(VueFormulate.default);
   export default {
     name: "NewRiskType",
+    title: "Create - Risk Type",
     data: function () {
       return {
         Constants: {

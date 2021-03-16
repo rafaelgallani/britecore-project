@@ -36,6 +36,13 @@
   </div>
 </template>
 
+<script>
+export default {
+  title: "About"
+};
+</script>
+
+
 <style lang="scss">
 .about {
   margin-left: 15px;

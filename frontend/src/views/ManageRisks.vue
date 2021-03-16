@@ -48,6 +48,7 @@
   Vue.use(VueFormulate.default);
   export default {
     name: "ManageRisks",
+    title: "Manage Risks",
     data: function () {
       return {
         Constants: {
