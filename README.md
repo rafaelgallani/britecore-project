@@ -1,6 +1,5 @@
 # Britecore Project
-Welcome! 
-This is a project built for one of the Britecore interview steps.
+A project built in the final step of a interview for Britecore.
 
 It's a system that enables insurers to define their custom data into the system without being limited to a rigid pre-defined model.
 
